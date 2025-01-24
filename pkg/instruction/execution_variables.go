@@ -1,8 +1,8 @@
 package instruction
 
 import (
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
-	resolveValueConstant "github.com/big-smiles/boardgame-golang/pkg/resolve_value/constant"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
+	resolveValueConstant "github.com/big-smiles/golang-boardgames/pkg/resolve_value/constant"
 )
 
 func getExecutionVariablesData() (*entity.DataEntity, error) {

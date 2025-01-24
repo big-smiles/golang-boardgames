@@ -1,7 +1,7 @@
 package resolveValueConstant
 
 import (
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
 )
 
 type ResolveValueFromVariable[T entity.PropertyTypes] struct {

@@ -1,8 +1,8 @@
 package instruction_entity
 
 import (
-	entity "github.com/big-smiles/boardgame-golang/pkg/entity"
-	"github.com/big-smiles/boardgame-golang/pkg/instruction"
+	entity "github.com/big-smiles/golang-boardgames/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/instruction"
 )
 
 type DataInstructionCreateEntity struct {

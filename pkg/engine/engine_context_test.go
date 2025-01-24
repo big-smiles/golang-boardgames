@@ -2,17 +2,17 @@ package engine_test
 
 import (
 	"errors"
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
-	"github.com/big-smiles/boardgame-golang/pkg/game"
-	"github.com/big-smiles/boardgame-golang/pkg/instruction"
-	instructionControl "github.com/big-smiles/boardgame-golang/pkg/instructions/control"
-	instructionEntity "github.com/big-smiles/boardgame-golang/pkg/instructions/entity"
-	instructionOutput "github.com/big-smiles/boardgame-golang/pkg/instructions/output"
-	"github.com/big-smiles/boardgame-golang/pkg/interaction"
-	"github.com/big-smiles/boardgame-golang/pkg/output"
-	"github.com/big-smiles/boardgame-golang/pkg/phase"
-	"github.com/big-smiles/boardgame-golang/pkg/player"
-	"github.com/big-smiles/boardgame-golang/pkg/resolve_value/constant"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/game"
+	"github.com/big-smiles/golang-boardgames/pkg/instruction"
+	instructionControl "github.com/big-smiles/golang-boardgames/pkg/instructions/control"
+	instructionEntity "github.com/big-smiles/golang-boardgames/pkg/instructions/entity"
+	instructionOutput "github.com/big-smiles/golang-boardgames/pkg/instructions/output"
+	"github.com/big-smiles/golang-boardgames/pkg/interaction"
+	"github.com/big-smiles/golang-boardgames/pkg/output"
+	"github.com/big-smiles/golang-boardgames/pkg/phase"
+	"github.com/big-smiles/golang-boardgames/pkg/player"
+	"github.com/big-smiles/golang-boardgames/pkg/resolve_value/constant"
 	"testing"
 )
 

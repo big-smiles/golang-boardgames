@@ -2,10 +2,10 @@ package instruction_entity
 
 import (
 	"fmt"
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
-	"github.com/big-smiles/boardgame-golang/pkg/instruction"
-	resolveValueConstant "github.com/big-smiles/boardgame-golang/pkg/resolve_value/constant"
-	ValueModifierCommon "github.com/big-smiles/boardgame-golang/pkg/value_modifier/common"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/instruction"
+	resolveValueConstant "github.com/big-smiles/golang-boardgames/pkg/resolve_value/constant"
+	ValueModifierCommon "github.com/big-smiles/golang-boardgames/pkg/value_modifier/common"
 )
 
 type instructionCreateEntityIntoVariable struct {

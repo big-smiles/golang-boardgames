@@ -1,6 +1,6 @@
 package ValueModifierCommon
 
-import "github.com/big-smiles/boardgame-golang/pkg/entity"
+import "github.com/big-smiles/golang-boardgames/pkg/entity"
 
 type ValueResolver[T any] interface {
 	Resolve(

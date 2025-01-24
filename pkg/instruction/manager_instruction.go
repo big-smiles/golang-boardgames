@@ -2,9 +2,9 @@ package instruction
 
 import (
 	"errors"
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
-	resolveValueConstant "github.com/big-smiles/boardgame-golang/pkg/resolve_value/constant"
-	ValueModifierCommon "github.com/big-smiles/boardgame-golang/pkg/value_modifier/common"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
+	resolveValueConstant "github.com/big-smiles/golang-boardgames/pkg/resolve_value/constant"
+	ValueModifierCommon "github.com/big-smiles/golang-boardgames/pkg/value_modifier/common"
 )
 
 type ManagerInstruction struct {

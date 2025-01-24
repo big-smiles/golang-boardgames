@@ -1,8 +1,8 @@
 package interaction
 
 import (
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
-	"github.com/big-smiles/boardgame-golang/pkg/player"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/player"
 )
 
 // SelectedInteraction an interaction taken by a PlayerId

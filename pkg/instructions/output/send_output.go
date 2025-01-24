@@ -1,7 +1,7 @@
 package instructionOutput
 
 import (
-	"github.com/big-smiles/boardgame-golang/pkg/instruction"
+	"github.com/big-smiles/golang-boardgames/pkg/instruction"
 )
 
 type InstructionSendOutput struct {

@@ -2,7 +2,7 @@ package instruction
 
 import (
 	"errors"
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
 )
 
 const (

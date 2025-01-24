@@ -2,9 +2,9 @@ package game
 
 import (
 	"fmt"
-	"github.com/big-smiles/boardgame-golang/pkg/engine"
-	"github.com/big-smiles/boardgame-golang/pkg/interaction"
-	"github.com/big-smiles/boardgame-golang/pkg/output"
+	"github.com/big-smiles/golang-boardgames/pkg/engine"
+	"github.com/big-smiles/golang-boardgames/pkg/interaction"
+	"github.com/big-smiles/golang-boardgames/pkg/output"
 )
 
 type ManagerGame struct {

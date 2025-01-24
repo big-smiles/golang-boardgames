@@ -1,6 +1,6 @@
 package resolveValueConstant
 
-import "github.com/big-smiles/boardgame-golang/pkg/entity"
+import "github.com/big-smiles/golang-boardgames/pkg/entity"
 
 type IValueResolver[T any] interface {
 	Resolve(
