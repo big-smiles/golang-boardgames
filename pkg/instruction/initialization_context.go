@@ -1,9 +1,9 @@
 package instruction
 
 import (
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
-	"github.com/big-smiles/boardgame-golang/pkg/interaction"
-	"github.com/big-smiles/boardgame-golang/pkg/output"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/interaction"
+	"github.com/big-smiles/golang-boardgames/pkg/output"
 )
 
 type InitializationContext interface {

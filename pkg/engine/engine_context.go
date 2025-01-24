@@ -1,12 +1,12 @@
 package engine
 
 import (
-	"github.com/big-smiles/boardgame-golang/pkg/entity"
-	"github.com/big-smiles/boardgame-golang/pkg/instruction"
-	"github.com/big-smiles/boardgame-golang/pkg/interaction"
-	"github.com/big-smiles/boardgame-golang/pkg/output"
-	"github.com/big-smiles/boardgame-golang/pkg/phase"
-	"github.com/big-smiles/boardgame-golang/pkg/player"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/instruction"
+	"github.com/big-smiles/golang-boardgames/pkg/interaction"
+	"github.com/big-smiles/golang-boardgames/pkg/output"
+	"github.com/big-smiles/golang-boardgames/pkg/phase"
+	"github.com/big-smiles/golang-boardgames/pkg/player"
 )
 
 type EngineContext struct {

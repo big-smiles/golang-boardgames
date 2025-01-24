@@ -1,7 +1,7 @@
 package phase
 
 import (
-	"github.com/big-smiles/boardgame-golang/pkg/player"
+	"github.com/big-smiles/golang-boardgames/pkg/player"
 )
 
 type DataTurn struct {
