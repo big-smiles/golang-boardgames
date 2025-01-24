@@ -1,0 +1,47 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Output of the "go tool compile" command
+*.o
+*.a
+
+# Build directories
+_build/
+_build-*/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Dependency directories
+vendor/
+
+# IDE-specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+*.out
+
+# Test binary
+*.test
+
+# Environment variables file
+.env
+
+# Backup files
+*~
+*.swp
+*.swo
