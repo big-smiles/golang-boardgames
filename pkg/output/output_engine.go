@@ -5,14 +5,17 @@ import (
 )
 
 type Game struct {
-	Entities []entity.OutputEntity
+	Entities    []entity.OutputEntity
+	PropertyIds entity.OutputManagerPropertyId
 }
 
 func NewGameOutput(
 	entities []entity.OutputEntity,
+	propertyIds entity.OutputManagerPropertyId,
 ) (*Game, error) {
 	return &Game{
-		Entities: entities,
+		Entities:    entities,
+		PropertyIds: propertyIds,
 	}, nil
 
 }

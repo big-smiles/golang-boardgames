@@ -3,15 +3,14 @@ package output
 import (
 	"errors"
 	"github.com/big-smiles/golang-boardgames/pkg/entity"
-	"github.com/big-smiles/golang-boardgames/pkg/interaction"
 )
 
 type Callback func(output *Game)
 
 type ManagerOutput struct {
-	managerEntity      *entity.ManagerEntity
-	managerInteraction *interaction.ManagerInteraction
-	callback           func(output *Game)
+	managerEntity     *entity.ManagerEntity
+	managerPropertyId *entity.ManagerPropertyId
+	callback          func(output *Game)
 }
 
 func NewManagerOutput(c func(output *Game)) (*ManagerOutput, error) {
@@ -21,6 +20,7 @@ func NewManagerOutput(c func(output *Game)) (*ManagerOutput, error) {
 }
 func (m *ManagerOutput) Initialize(ctx InitializationContext) (err error) {
 	m.managerEntity = ctx.GetManagerEntity()
+	m.managerPropertyId = ctx.GetManagerPropertyId()
 	if m.managerEntity == nil {
 		return errors.New("managerEntity is nil")
 	}
@@ -29,14 +29,17 @@ func (m *ManagerOutput) Initialize(ctx InitializationContext) (err error) {
 
 func (m *ManagerOutput) SendOutput() error {
 	amount := m.managerEntity.GetOutputAmount()
-	o := make([]entity.OutputEntity, amount)
-	err := m.managerEntity.GetOutput(&o)
+	entities := make([]entity.OutputEntity, amount)
+	err := m.managerEntity.GetOutput(&entities)
 	if err != nil {
 
 		return err
 	}
-
-	eo, err := NewGameOutput(o)
+	propertyIds, err := m.managerPropertyId.GetOutput()
+	if err != nil {
+		return err
+	}
+	eo, err := NewGameOutput(entities, propertyIds)
 	if err != nil {
 		return err
 	}

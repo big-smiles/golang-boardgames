@@ -65,3 +65,14 @@ func GetManagerTypedPropertyId[T PropertyTypes](m *ManagerPropertyId) (*ManagerT
 		return nil, fmt.Errorf("GetManagerTypedPropertyId[%s]: %s. type unimplemented", a2, a2)
 	}
 }
+
+func (m *ManagerPropertyId) GetOutput() (OutputManagerPropertyId, error) {
+	o := NewOutputManagerPropertyId(
+		m.string.idByName,
+		m.int.idByName,
+		m.bool.idByName,
+		m.entityId.idByName,
+		m.arrayEntityId.idByName,
+	)
+	return *o, nil
+}
