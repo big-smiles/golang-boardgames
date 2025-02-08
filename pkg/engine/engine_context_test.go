@@ -62,22 +62,22 @@ func TestCreateEntity(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	stage1, err := phase.NewDataStage(dArray)
-	if err != nil {
-		t.Fatal(err)
+	p := phase.DataPhase{
+		Name: namePhase,
+		Turns: []phase.DataTurn{
+			{
+				ActivePlayers: []player.Id{playerId},
+				Stages: []phase.DataStage{
+					{
+						Instructions: dArray,
+					},
+				},
+			},
+		},
 	}
 
-	turn1, err := phase.NewDataTurn([]player.Id{playerId}, []phase.DataStage{*stage1})
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	p, err := phase.NewDataPhase([]phase.DataTurn{*turn1})
-	if err != nil {
-		t.Fatal(err)
-	}
 	phases := make(map[phase.NamePhase]phase.DataPhase, 1)
-	phases[namePhase] = *p
+	phases[namePhase] = p
 	players := []player.Id{"player1"}
 	dataGame, err := game.NewDataGame(
 		*libraryDataEntity,

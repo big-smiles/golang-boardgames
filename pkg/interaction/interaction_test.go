@@ -313,21 +313,21 @@ func createPhaseLibrary(
 		return nil, err
 	}
 
-	stage1, err := phase.NewDataStage(instructionArray1)
-	if err != nil {
-		return nil, err
+	p1 := phase.DataPhase{
+		Name: namePhase1,
+		Turns: []phase.DataTurn{
+			{
+				ActivePlayers: []player.Id{playerId},
+				Stages: []phase.DataStage{
+					{
+						Instructions: instructionArray1,
+					},
+				},
+			},
+		},
 	}
 
-	turn1, err := phase.NewDataTurn([]player.Id{playerId}, []phase.DataStage{*stage1})
-	if err != nil {
-		return nil, err
-	}
-
-	p1, err := phase.NewDataPhase([]phase.DataTurn{*turn1})
-	if err != nil {
-		return nil, err
-	}
 	libraryPhase := make(phase.LibraryPhase, 1)
-	libraryPhase[namePhase1] = *p1
+	libraryPhase[namePhase1] = p1
 	return &libraryPhase, nil
 }

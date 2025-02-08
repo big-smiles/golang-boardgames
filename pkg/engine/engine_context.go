@@ -17,7 +17,7 @@ type EngineContext struct {
 	managerEntityData         *entity.ManagerData
 	managerPropertyId         *entity.ManagerPropertyId
 	managerOutput             *output.ManagerOutput
-	ManagerPhase              *phase.ManagerPhase
+	managerPhase              *phase.ManagerPhase
 	ManagerInteraction        *interaction.ManagerInteraction
 	managerTriggerInstruction *instruction.ManagerTriggerInstruction
 	managerPlayer             *player.ManagerPlayer
@@ -103,7 +103,7 @@ func NewEngineContext(
 		managerEntityId:           managerEntityId,
 		managerPropertyId:         managerPropertyId,
 		managerOutput:             managerOutput,
-		ManagerPhase:              managerPhase,
+		managerPhase:              managerPhase,
 		ManagerInteraction:        managerInteraction,
 		managerTriggerInstruction: managerTriggerInstruction,
 		managerPlayer:             managerPlayer,
@@ -115,7 +115,7 @@ func NewEngineContext(
 	return &engineContext, nil
 }
 
-func (e EngineContext) initialize() error {
+func (e *EngineContext) initialize() error {
 	err := e.managerInstruction.Initialize(e)
 	if err != nil {
 		return err
@@ -156,7 +156,7 @@ func (e EngineContext) initialize() error {
 		return err
 	}
 
-	err = e.ManagerPhase.Initialize(e)
+	err = e.managerPhase.Initialize(e)
 	if err != nil {
 		return err
 	}
@@ -173,70 +173,78 @@ func (e EngineContext) initialize() error {
 
 	return nil
 }
+func (e *EngineContext) Next() error {
+	return e.managerPhase.Next()
+}
+
+func (e *EngineContext) GetActivePlayerProvider() output.ActivePlayerProvider {
+	//TODO implement me
+	return e.managerPhase
+}
 
 // GetPerformer we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetPerformer() *instruction.Performer {
+func (e *EngineContext) GetPerformer() *instruction.Performer {
 	return e.performer
 }
 
 // GetManagerEntity we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerEntity() *entity.ManagerEntity {
+func (e *EngineContext) GetManagerEntity() *entity.ManagerEntity {
 	return e.managerEntity
 }
 
 // GetManagerOutput we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerOutput() *output.ManagerOutput {
+func (e *EngineContext) GetManagerOutput() *output.ManagerOutput {
 	return e.managerOutput
 }
 
 // GetManagerEntityId we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerEntityId() *entity.ManagerEntityId {
+func (e *EngineContext) GetManagerEntityId() *entity.ManagerEntityId {
 	return e.managerEntityId
 }
 
 // GetManagerPropertyId we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerPropertyId() *entity.ManagerPropertyId {
+func (e *EngineContext) GetManagerPropertyId() *entity.ManagerPropertyId {
 	return e.managerPropertyId
 }
 
 // GetManagerEntityData we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerEntityData() *entity.ManagerData {
+func (e *EngineContext) GetManagerEntityData() *entity.ManagerData {
 	return e.managerEntityData
 }
 
 // GetManagerInstruction we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerInstruction() *instruction.ManagerInstruction {
+func (e *EngineContext) GetManagerInstruction() *instruction.ManagerInstruction {
 	return e.managerInstruction
 }
 
 // GetITriggerInstruction we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
 // ITriggerInstruction is an interface on the interaction package
-func (e EngineContext) GetITriggerInstruction() interaction.ITriggerInstruction {
+func (e *EngineContext) GetITriggerInstruction() interaction.ITriggerInstruction {
 	return e.managerTriggerInstruction
 }
 
 // GetManagerInteraction we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerInteraction() *interaction.ManagerInteraction {
+func (e *EngineContext) GetManagerInteraction() *interaction.ManagerInteraction {
 	return e.ManagerInteraction
 }
 
 // GetManagerTriggerInstruction we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerTriggerInstruction() *instruction.ManagerTriggerInstruction {
+func (e *EngineContext) GetManagerTriggerInstruction() *instruction.ManagerTriggerInstruction {
 	return e.managerTriggerInstruction
 }
 
 // GetManagerPlayer we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e EngineContext) GetManagerPlayer() *player.ManagerPlayer {
+func (e *EngineContext) GetManagerPlayer() *player.ManagerPlayer {
 	return e.managerPlayer
 }

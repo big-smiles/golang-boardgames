@@ -61,7 +61,7 @@ func (g *ManagerGame) SelectInteraction(selectedInteractions []interaction.Selec
 	return nil
 }
 func (g *ManagerGame) gameLoop() error {
-	err := g.engineContext.ManagerPhase.Next()
+	err := g.engineContext.Next()
 	if err != nil {
 		return err
 	}

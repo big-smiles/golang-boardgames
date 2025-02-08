@@ -139,22 +139,23 @@ func TestAddEntityModifier(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	stage1, err := phase.NewDataStage(dArray)
-	if err != nil {
-		t.Fatal(err)
+
+	p := phase.DataPhase{
+		Name: namePhase,
+		Turns: []phase.DataTurn{
+			{
+				Stages: []phase.DataStage{
+					{
+						Instructions: dArray,
+					},
+				},
+				ActivePlayers: []player.Id{playerId},
+			},
+		},
 	}
 
-	turn1, err := phase.NewDataTurn([]player.Id{playerId}, []phase.DataStage{*stage1})
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	p, err := phase.NewDataPhase([]phase.DataTurn{*turn1})
-	if err != nil {
-		t.Fatal(err)
-	}
 	libraryPhase := make(phase.LibraryPhase, 1)
-	libraryPhase[namePhase] = *p
+	libraryPhase[namePhase] = p
 	players := []player.Id{"player1"}
 	gameData, err := game.NewDataGame(
 		libraryDataEntities,

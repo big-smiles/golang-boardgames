@@ -5,11 +5,5 @@ import (
 )
 
 type DataStage struct {
-	instructions instruction.DataInstruction
-}
-
-func NewDataStage(instructions instruction.DataInstruction) (*DataStage, error) {
-	return &DataStage{
-		instructions: instructions,
-	}, nil
+	Instructions instruction.DataInstruction
 }
