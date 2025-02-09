@@ -102,22 +102,8 @@ func createLibraryDataEntity(nameEntityId entity.NameEntityId, nameDataEntity1 e
 		return nil, err
 	}
 
-	namesBoolProperties := make([]entity.NamePropertyId[bool], 0)
-	namesStringProperties := make([]entity.NamePropertyId[string], 0)
-	namesIntProperties := make([]entity.NamePropertyId[int], 0)
-	namesEntityIdProperties := make([]entity.NamePropertyId[entity.Id], 0)
-	namesArrayEntityIdProperties := make([]entity.NamePropertyId[[]entity.Id], 0)
-	dataProperties, err := entity.NewDataProperties(
-		namesBoolProperties,
-		namesStringProperties,
-		namesEntityIdProperties,
-		namesIntProperties,
-		namesArrayEntityIdProperties,
-	)
-	if err != nil {
-		return nil, err
-	}
-	ed, err := entity.NewDataEntity(*id, *dataProperties)
+	dataProperties := entity.DataProperties{}
+	ed, err := entity.NewDataEntity(*id, dataProperties)
 	if err != nil {
 		return nil, err
 	}
