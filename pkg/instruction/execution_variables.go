@@ -6,10 +6,7 @@ import (
 )
 
 func getExecutionVariablesData() (*entity.DataEntity, error) {
-	nameEntityIdResolver, err := resolveValueConstant.NewResolveConstant[entity.NameEntityId]("")
-	if err != nil {
-		return nil, err
-	}
+	nameEntityIdResolver := resolveValueConstant.NewResolveConstant[entity.NameEntityId]("")
 	dataId, err := entity.NewDataId(nameEntityIdResolver)
 	if err != nil {
 		return nil, err

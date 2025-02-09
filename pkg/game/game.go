@@ -8,7 +8,7 @@ import (
 )
 
 type ManagerGame struct {
-	engineContext engine.EngineContext
+	engineContext engine.Context
 	started       bool
 }
 
@@ -17,7 +17,7 @@ func NewGame(
 	outputCallback output.Callback,
 	interactionCallback interaction.Callback,
 ) (*ManagerGame, error) {
-	ctx, err := engine.NewEngineContext(
+	ctx, err := engine.NewContext(
 		data.entities,
 		outputCallback,
 		data.phases,

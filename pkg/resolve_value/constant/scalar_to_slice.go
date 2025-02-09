@@ -8,10 +8,10 @@ type ResolveScalarToSlice[T any] struct {
 	value IValueResolver[T]
 }
 
-func NewResolveScalarToSlice[T any](value IValueResolver[T]) (*ResolveScalarToSlice[T], error) {
+func NewResolveScalarToSlice[T any](value IValueResolver[T]) *ResolveScalarToSlice[T] {
 	return &ResolveScalarToSlice[T]{
 		value: value,
-	}, nil
+	}
 }
 
 func (r ResolveScalarToSlice[T]) Resolve(

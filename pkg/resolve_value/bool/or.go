@@ -5,14 +5,17 @@ import (
 )
 
 type ResolveValueOr struct {
-	Resolvers []BoolResolver
+	resolvers []BoolResolver
 }
 
+func NewResolveValueOr(resolvers ...BoolResolver) *ResolveValueOr {
+	return &ResolveValueOr{resolvers: resolvers}
+}
 func (r ResolveValueOr) Resolve(
 	variables entity.Entity,
 	managerPropertyId *entity.ManagerPropertyId,
 ) (bool, error) {
-	for _, resolver := range r.Resolvers {
+	for _, resolver := range r.resolvers {
 		result, err := resolver.Resolve(variables, managerPropertyId)
 		if err != nil {
 			return false, err

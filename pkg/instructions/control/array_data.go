@@ -6,7 +6,7 @@ type DataInstructionArray struct {
 	dataInstructions []instruction.DataInstruction
 }
 
-func NewDataInstructionArray(d []instruction.DataInstruction) *DataInstructionArray {
+func NewDataInstructionArray(d ...instruction.DataInstruction) *DataInstructionArray {
 	return &DataInstructionArray{
 		dataInstructions: d,
 	}

@@ -23,10 +23,8 @@ func (i instructionCreateEntityIntoVariable) Execute(ctx instruction.ExecutionCo
 	if err != nil {
 		return err
 	}
-	valueResolver, err := resolveValueConstant.NewResolveConstant[entity.Id](id)
-	if err != nil {
-		return err
-	}
+	valueResolver := resolveValueConstant.NewResolveConstant[entity.Id](id)
+
 	setValueModifier, err := ValueModifierCommon.NewDataModifierSetValue(valueResolver)
 	if err != nil {
 		return err

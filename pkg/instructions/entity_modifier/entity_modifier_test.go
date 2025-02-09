@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/big-smiles/golang-boardgames/pkg/entity"
 	"github.com/big-smiles/golang-boardgames/pkg/game"
-	"github.com/big-smiles/golang-boardgames/pkg/instruction"
 	instructionControl "github.com/big-smiles/golang-boardgames/pkg/instructions/control"
 	instructionEntity "github.com/big-smiles/golang-boardgames/pkg/instructions/entity"
 	instructionOutput "github.com/big-smiles/golang-boardgames/pkg/instructions/output"
@@ -55,10 +54,7 @@ func TestAddEntityModifier(t *testing.T) {
 	var callbackInteraction interaction.Callback = func([]interaction.OutputInteraction) {
 		t.Log("callback interaction called")
 	}
-	stringValueResolver, err := resolveValueConstant.NewResolveConstant[entity.NameEntityId](nameEntity)
-	if err != nil {
-		t.Fatal(err)
-	}
+	stringValueResolver := resolveValueConstant.NewResolveConstant[entity.NameEntityId](nameEntity)
 
 	id, err := entity.NewDataId(stringValueResolver)
 	if err != nil {
@@ -90,24 +86,9 @@ func TestAddEntityModifier(t *testing.T) {
 	libraryDataEntities := make(entity.LibraryDataEntity, 1)
 	libraryDataEntities[nameDataEntity] = *entityData
 
-	dataCreateEntity, err := instructionEntity.NewDataInstructionCreateEntity(nameDataEntity)
-	if err != nil {
-		t.Fatal(err)
-	}
-	dataSendOutput1, err := instructionOutput.NewDataInstructionSendOutput()
-	if err != nil {
-		t.Fatal(err)
-	}
-	dataSendOutput2, err := instructionOutput.NewDataInstructionSendOutput()
-	if err != nil {
-		t.Fatal(err)
-	}
-
 	boolModifiers := make(entity.MapDataModifierProperties[bool], 1)
-	valueResolver, err := resolveValueConstant.NewResolveConstant[bool](true)
-	if err != nil {
-		t.Fatal(err)
-	}
+	valueResolver := resolveValueConstant.NewResolveConstant[bool](true)
+
 	boolModifiers[nameProperty], err = ValueModifierCommon.NewDataModifierSetValue(valueResolver)
 	dataPropertiesModifier, err := entity.NewDataPropertiesModifier(
 		nil,
@@ -125,28 +106,18 @@ func TestAddEntityModifier(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	dataInstructionAddModifier, err := NewDataInstructionAddEntityModifier(*id, *dataEntityModifier)
-	if err != nil {
-		t.Fatal(err)
-	}
-	arr := make([]instruction.DataInstruction, 4)
-	arr[0] = *dataCreateEntity
-	arr[1] = *dataSendOutput1
-	arr[2] = *dataInstructionAddModifier
-	arr[3] = *dataSendOutput2
-
-	dArray, err := instructionControl.NewDataInstructionArray(arr)
-	if err != nil {
-		t.Fatal(err)
-	}
-
 	p := phase.DataPhase{
 		Name: namePhase,
 		Turns: []phase.DataTurn{
 			{
 				Stages: []phase.DataStage{
 					{
-						Instructions: dArray,
+						Instructions: instructionControl.NewDataInstructionArray(
+							instructionEntity.NewDataInstructionCreateEntity(nameDataEntity),
+							instructionOutput.NewDataInstructionSendOutput(),
+							NewDataInstructionAddEntityModifier(*id, *dataEntityModifier),
+							instructionOutput.NewDataInstructionSendOutput(),
+						),
 					},
 				},
 				ActivePlayers: []player.Id{playerId},

@@ -15,7 +15,7 @@ func NewPerformerOutput() (*Output, error) {
 
 func (p *Output) SendOutput() error {
 	if p.managerOutput == nil {
-		return errors.New("Output does not have a managerOutput")
+		return errors.New("output does not have a managerOutput")
 	}
 	err := p.managerOutput.SendOutput()
 	if err != nil {

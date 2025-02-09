@@ -9,7 +9,7 @@ import (
 	"github.com/big-smiles/golang-boardgames/pkg/player"
 )
 
-type EngineContext struct {
+type Context struct {
 	performer                 *instruction.Performer
 	managerInstruction        *instruction.ManagerInstruction
 	managerEntity             *entity.ManagerEntity
@@ -23,7 +23,7 @@ type EngineContext struct {
 	managerPlayer             *player.ManagerPlayer
 }
 
-// NewEngineContext Returns a new EngineContext
+// NewContext Returns a new Context
 //
 // # Params
 //
@@ -34,14 +34,14 @@ type EngineContext struct {
 //
 // phases phase.LibraryPhase the set of phases that will be available during the engine
 // firstPhase phase.NamePhase the phase that will be loaded when the engine begins
-func NewEngineContext(
+func NewContext(
 	entityData entity.LibraryDataEntity,
 	callbackOutput output.Callback,
 	phases phase.LibraryPhase,
 	firstPhase phase.NamePhase,
 	callbackInteraction interaction.Callback,
 	players []player.Id,
-) (*EngineContext, error) {
+) (*Context, error) {
 	p, err := instruction.NewPerformer()
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func NewEngineContext(
 		return nil, err
 	}
 
-	engineContext := EngineContext{
+	engineContext := Context{
 		performer:                 p,
 		managerInstruction:        mi,
 		managerEntity:             managerEntity,
@@ -115,7 +115,7 @@ func NewEngineContext(
 	return &engineContext, nil
 }
 
-func (e *EngineContext) initialize() error {
+func (e *Context) initialize() error {
 	err := e.managerInstruction.Initialize(e)
 	if err != nil {
 		return err
@@ -173,78 +173,78 @@ func (e *EngineContext) initialize() error {
 
 	return nil
 }
-func (e *EngineContext) Next() error {
+func (e *Context) Next() error {
 	return e.managerPhase.Next()
 }
 
-func (e *EngineContext) GetActivePlayerProvider() output.ActivePlayerProvider {
+func (e *Context) GetActivePlayerProvider() output.ActivePlayerProvider {
 	//TODO implement me
 	return e.managerPhase
 }
 
 // GetPerformer we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetPerformer() *instruction.Performer {
+func (e *Context) GetPerformer() *instruction.Performer {
 	return e.performer
 }
 
 // GetManagerEntity we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerEntity() *entity.ManagerEntity {
+func (e *Context) GetManagerEntity() *entity.ManagerEntity {
 	return e.managerEntity
 }
 
 // GetManagerOutput we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerOutput() *output.ManagerOutput {
+func (e *Context) GetManagerOutput() *output.ManagerOutput {
 	return e.managerOutput
 }
 
 // GetManagerEntityId we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerEntityId() *entity.ManagerEntityId {
+func (e *Context) GetManagerEntityId() *entity.ManagerEntityId {
 	return e.managerEntityId
 }
 
 // GetManagerPropertyId we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerPropertyId() *entity.ManagerPropertyId {
+func (e *Context) GetManagerPropertyId() *entity.ManagerPropertyId {
 	return e.managerPropertyId
 }
 
 // GetManagerEntityData we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerEntityData() *entity.ManagerData {
+func (e *Context) GetManagerEntityData() *entity.ManagerData {
 	return e.managerEntityData
 }
 
 // GetManagerInstruction we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerInstruction() *instruction.ManagerInstruction {
+func (e *Context) GetManagerInstruction() *instruction.ManagerInstruction {
 	return e.managerInstruction
 }
 
 // GetITriggerInstruction we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
 // ITriggerInstruction is an interface on the interaction package
-func (e *EngineContext) GetITriggerInstruction() interaction.ITriggerInstruction {
+func (e *Context) GetITriggerInstruction() interaction.ITriggerInstruction {
 	return e.managerTriggerInstruction
 }
 
 // GetManagerInteraction we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerInteraction() *interaction.ManagerInteraction {
+func (e *Context) GetManagerInteraction() *interaction.ManagerInteraction {
 	return e.ManagerInteraction
 }
 
 // GetManagerTriggerInstruction we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerTriggerInstruction() *instruction.ManagerTriggerInstruction {
+func (e *Context) GetManagerTriggerInstruction() *instruction.ManagerTriggerInstruction {
 	return e.managerTriggerInstruction
 }
 
 // GetManagerPlayer we declare getters to fix cyclic dependencies by passing the ctx as
 // an interface declared on the manager packages
-func (e *EngineContext) GetManagerPlayer() *player.ManagerPlayer {
+func (e *Context) GetManagerPlayer() *player.ManagerPlayer {
 	return e.managerPlayer
 }
