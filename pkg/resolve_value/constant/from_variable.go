@@ -8,10 +8,10 @@ type ResolveValueFromVariable[T entity.PropertyTypes] struct {
 	namePropertyId entity.NamePropertyId[T]
 }
 
-func NewResolveValueFromVariable[T entity.PropertyTypes](namePropertyId entity.NamePropertyId[T]) (*ResolveValueFromVariable[T], error) {
+func NewResolveValueFromVariable[T entity.PropertyTypes](namePropertyId entity.NamePropertyId[T]) *ResolveValueFromVariable[T] {
 	return &ResolveValueFromVariable[T]{
 		namePropertyId: namePropertyId,
-	}, nil
+	}
 }
 
 func (r ResolveValueFromVariable[T]) Resolve(

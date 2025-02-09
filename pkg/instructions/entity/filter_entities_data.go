@@ -13,11 +13,11 @@ type DataInstructionFilterEntities struct {
 func NewDataInstructionFilterEntities(
 	predicate entity.Predicate,
 	namePropertyId entity.NamePropertyId[[]entity.Id],
-) (*DataInstructionFilterEntities, error) {
+) *DataInstructionFilterEntities {
 	return &DataInstructionFilterEntities{
 		predicate:      predicate,
 		namePropertyId: namePropertyId,
-	}, nil
+	}
 }
 func (d DataInstructionFilterEntities) NewFromThisData() (instruction.Instruction, error) {
 	return NewInstructionFilterEntities(d)

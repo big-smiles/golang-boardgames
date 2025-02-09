@@ -8,10 +8,10 @@ type ResolveValueConstant[T any] struct {
 	value T
 }
 
-func NewResolveConstant[T any](v T) (*ResolveValueConstant[T], error) {
+func NewResolveConstant[T any](v T) *ResolveValueConstant[T] {
 	return &ResolveValueConstant[T]{
 		value: v,
-	}, nil
+	}
 }
 
 func (r ResolveValueConstant[T]) Resolve(

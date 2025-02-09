@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/big-smiles/golang-boardgames/pkg/entity"
 	"github.com/big-smiles/golang-boardgames/pkg/game"
-	"github.com/big-smiles/golang-boardgames/pkg/instruction"
 	instructionControl "github.com/big-smiles/golang-boardgames/pkg/instructions/control"
 	instructionEntity "github.com/big-smiles/golang-boardgames/pkg/instructions/entity"
 	instructionOutput "github.com/big-smiles/golang-boardgames/pkg/instructions/output"
@@ -45,39 +44,26 @@ func TestCreateEntity(t *testing.T) {
 	var callbackInteraction interaction.Callback = func([]interaction.OutputInteraction) {
 		t.Log("callback interaction called")
 	}
-	dCreateEntity, err := instructionEntity.NewDataInstructionCreateEntity(nameDataEntity1)
-	if err != nil {
-		t.Fatal(err)
-	}
-	dSendOutput, err := instructionOutput.NewDataInstructionSendOutput()
-	if err != nil {
-		t.Fatal(err)
-	}
-	arr := make([]instruction.DataInstruction, 2)
-	arr[0] = *dCreateEntity
-	arr[1] = *dSendOutput
 
-	dArray, err := instructionControl.NewDataInstructionArray(arr)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	stage1, err := phase.NewDataStage(dArray)
-	if err != nil {
-		t.Fatal(err)
+	p := phase.DataPhase{
+		Name: namePhase,
+		Turns: []phase.DataTurn{
+			{
+				ActivePlayers: []player.Id{playerId},
+				Stages: []phase.DataStage{
+					{
+						Instructions: instructionControl.NewDataInstructionArray(
+							instructionEntity.NewDataInstructionCreateEntity(nameDataEntity1),
+							instructionOutput.NewDataInstructionSendOutput(),
+						),
+					},
+				},
+			},
+		},
 	}
 
-	turn1, err := phase.NewDataTurn([]player.Id{playerId}, []phase.DataStage{*stage1})
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	p, err := phase.NewDataPhase([]phase.DataTurn{*turn1})
-	if err != nil {
-		t.Fatal(err)
-	}
 	phases := make(map[phase.NamePhase]phase.DataPhase, 1)
-	phases[namePhase] = *p
+	phases[namePhase] = p
 	players := []player.Id{"player1"}
 	dataGame, err := game.NewDataGame(
 		*libraryDataEntity,
@@ -109,10 +95,7 @@ func TestCreateEntity(t *testing.T) {
 }
 
 func createLibraryDataEntity(nameEntityId entity.NameEntityId, nameDataEntity1 entity.NameDataEntity) (*entity.LibraryDataEntity, error) {
-	stringValueResolver, err := resolveValueConstant.NewResolveConstant[entity.NameEntityId](nameEntityId)
-	if err != nil {
-		return nil, err
-	}
+	stringValueResolver := resolveValueConstant.NewResolveConstant[entity.NameEntityId](nameEntityId)
 
 	id, err := entity.NewDataId(stringValueResolver)
 	if err != nil {
@@ -138,7 +121,7 @@ func createLibraryDataEntity(nameEntityId entity.NameEntityId, nameDataEntity1 e
 	if err != nil {
 		return nil, err
 	}
-	var libraryDataEntity entity.LibraryDataEntity = make(entity.LibraryDataEntity, 1)
+	var libraryDataEntity = make(entity.LibraryDataEntity, 1)
 	libraryDataEntity[nameDataEntity1] = *ed
 	return &libraryDataEntity, nil
 

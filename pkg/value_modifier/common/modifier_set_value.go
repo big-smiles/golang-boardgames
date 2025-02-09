@@ -10,6 +10,6 @@ func NewModifierSetValue[T any](value T) (*ModifierSetValue[T], error) {
 	}, nil
 }
 
-func (m *ModifierSetValue[T]) Modify(prevValue T) (newValue T, err error) {
+func (m *ModifierSetValue[T]) Modify(_ T) (newValue T, err error) {
 	return m.value, nil
 }

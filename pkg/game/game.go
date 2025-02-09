@@ -8,7 +8,7 @@ import (
 )
 
 type ManagerGame struct {
-	engineContext engine.EngineContext
+	engineContext engine.Context
 	started       bool
 }
 
@@ -17,7 +17,7 @@ func NewGame(
 	outputCallback output.Callback,
 	interactionCallback interaction.Callback,
 ) (*ManagerGame, error) {
-	ctx, err := engine.NewEngineContext(
+	ctx, err := engine.NewContext(
 		data.entities,
 		outputCallback,
 		data.phases,
@@ -61,7 +61,7 @@ func (g *ManagerGame) SelectInteraction(selectedInteractions []interaction.Selec
 	return nil
 }
 func (g *ManagerGame) gameLoop() error {
-	err := g.engineContext.ManagerPhase.Next()
+	err := g.engineContext.Next()
 	if err != nil {
 		return err
 	}

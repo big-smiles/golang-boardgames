@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	SELECTED_ENTITIES entity.NamePropertyId[[]entity.Id] = "__SELECTED_ENTITIES"
+	SelectedEntities entity.NamePropertyId[[]entity.Id] = "__SELECTED_ENTITIES"
 )
 
 type ExecutionContext struct {

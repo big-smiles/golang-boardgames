@@ -57,7 +57,7 @@ func TestInteractions(t *testing.T) {
 		}
 	}
 	calledTimesInteraction := 0
-	var interactionToSelect []interaction.SelectedInteraction = make([]interaction.SelectedInteraction, 1)
+	var interactionToSelect = make([]interaction.SelectedInteraction, 1)
 	var callbackInteraction interaction.Callback = func(outputInteraction []interaction.OutputInteraction) {
 		t.Log("callback interaction called")
 		calledTimesInteraction++
@@ -144,19 +144,13 @@ func createDataEntityLibrary(
 	nameDataEntity entity.NameDataEntity,
 	nameDataEntity2 entity.NameDataEntity,
 ) (*entity.LibraryDataEntity, *entity.DataId, error) {
-	stringValueResolver, err := resolveValueConstant.NewResolveConstant[entity.NameEntityId](nameEntity)
-	if err != nil {
-		return nil, nil, err
-	}
+	stringValueResolver := resolveValueConstant.NewResolveConstant[entity.NameEntityId](nameEntity)
 
 	id, err := entity.NewDataId(stringValueResolver)
 	if err != nil {
 		return nil, nil, err
 	}
-	stringValueResolver2, err := resolveValueConstant.NewResolveConstant[entity.NameEntityId](nameEntity2)
-	if err != nil {
-		return nil, nil, err
-	}
+	stringValueResolver2 := resolveValueConstant.NewResolveConstant[entity.NameEntityId](nameEntity2)
 
 	id2, err := entity.NewDataId(stringValueResolver2)
 	if err != nil {
@@ -204,29 +198,10 @@ func createPhaseLibrary(
 
 ) (*phase.LibraryPhase, error) {
 
-	dataCreateEntity, err := instructionEntity.NewDataInstructionCreateEntity(nameDataEntity)
-	if err != nil {
-		return nil, err
-	}
-	dataCreateEntity2, err := instructionEntity.NewDataInstructionCreateEntity(nameDataEntity2)
-	if err != nil {
-		return nil, err
-	}
-	dataSendOutput1, err := instructionOutput.NewDataInstructionSendOutput()
-	if err != nil {
-		return nil, err
-	}
-	dataSendOutput2, err := instructionOutput.NewDataInstructionSendOutput()
-	if err != nil {
-		return nil, err
-	}
-
 	boolModifiers := make(entity.MapDataModifierProperties[bool], 1)
-	valueResolver, err := resolveValueConstant.NewResolveConstant[bool](true)
-	if err != nil {
-		return nil, err
-	}
-	boolModifiers[nameProperty], err = ValueModifierCommon.NewDataModifierSetValue(valueResolver)
+	valueResolver := resolveValueConstant.NewResolveConstant[bool](true)
+	bolModifier, err := ValueModifierCommon.NewDataModifierSetValue(valueResolver)
+	boolModifiers[nameProperty] = bolModifier
 	dataPropertiesModifier, err := entity.NewDataPropertiesModifier(
 		nil,
 		nil,
@@ -242,19 +217,11 @@ func createPhaseLibrary(
 	if err != nil {
 		return nil, err
 	}
-	resolveFromSelectedId, err := resolveValueConstant.NewResolveValueFromVariable[[]entity.Id](instruction.SELECTED_ENTITIES)
-	dataInstructionAddModifier, err := instructionEntityModifier.NewDataInstructionAddEntityModifierWithResolvedTarget(
-		resolveFromSelectedId,
-		*dataEntityModifier,
-	)
-	if err != nil {
-		return nil, err
-	}
 
-	availableEntityIds, err := resolveValueConstant.NewResolveValueFromVariable(variablePropertyName)
-	if err != nil {
-		return nil, err
-	}
+	resolveFromSelectedId := resolveValueConstant.NewResolveValueFromVariable[[]entity.Id](instruction.SelectedEntities)
+
+	availableEntityIds := resolveValueConstant.NewResolveValueFromVariable(variablePropertyName)
+
 	dataAvailableInteraction, err := interaction.NewDataAvailableInteraction(
 		playerId,
 		availableEntityIds,
@@ -265,69 +232,45 @@ func createPhaseLibrary(
 		return nil, err
 	}
 
-	var predicate entity.Predicate = func(
-		executionVariable entity.Entity,
-		e entity.Entity,
-	) (bool, error) {
-		return e.Name == nameEntity || e.Name == nameEntity2, nil
-	}
-	dataFilterEntity, err := instructionEntity.NewDataInstructionFilterEntities(
-		predicate,
-		variablePropertyName,
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	arr2 := make([]instruction.DataInstruction, 2)
-	arr2[0] = *dataInstructionAddModifier
-	arr2[1] = *dataSendOutput2
-	instructionArray2, err := instructionControl.NewDataInstructionArray(arr2)
-	if err != nil {
-		return nil, err
-	}
-
-	dataInstructionAddAvailableInteraction, err := instructionInteraction.NewDataAvailableInteractionData(
-		*dataAvailableInteraction,
-		instructionArray2,
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	dataInstructionWaitForInteraction, err := instructionInteraction.NewDataWaitForInteractionData()
-	if err != nil {
-		return nil, err
-	}
-
-	arr := make([]instruction.DataInstruction, 6)
-	arr[0] = *dataCreateEntity
-	arr[1] = *dataCreateEntity2
-	arr[2] = *dataSendOutput1
-	arr[3] = *dataFilterEntity
-	arr[4] = *dataInstructionAddAvailableInteraction
-	arr[5] = *dataInstructionWaitForInteraction
-
-	instructionArray1, err := instructionControl.NewDataInstructionArray(arr)
-	if err != nil {
-		return nil, err
+	p1 := phase.DataPhase{
+		Name: namePhase1,
+		Turns: []phase.DataTurn{
+			{
+				ActivePlayers: []player.Id{playerId},
+				Stages: []phase.DataStage{
+					{
+						Instructions: instructionControl.NewDataInstructionArray(
+							instructionEntity.NewDataInstructionCreateEntity(nameDataEntity),
+							instructionEntity.NewDataInstructionCreateEntity(nameDataEntity2),
+							instructionOutput.NewDataInstructionSendOutput(),
+							instructionEntity.NewDataInstructionFilterEntities(
+								func(
+									executionVariable entity.Entity,
+									e entity.Entity,
+								) (bool, error) {
+									return e.Name == nameEntity || e.Name == nameEntity2, nil
+								},
+								variablePropertyName,
+							),
+							instructionInteraction.NewDataAvailableInteractionData(
+								*dataAvailableInteraction,
+								instructionControl.NewDataInstructionArray(
+									instructionEntityModifier.NewDataInstructionAddEntityModifierWithResolvedTarget(
+										resolveFromSelectedId,
+										*dataEntityModifier,
+									),
+									instructionOutput.NewDataInstructionSendOutput(),
+								),
+							),
+							instructionInteraction.NewDataWaitForInteractionData(),
+						),
+					},
+				},
+			},
+		},
 	}
 
-	stage1, err := phase.NewDataStage(instructionArray1)
-	if err != nil {
-		return nil, err
-	}
-
-	turn1, err := phase.NewDataTurn([]player.Id{playerId}, []phase.DataStage{*stage1})
-	if err != nil {
-		return nil, err
-	}
-
-	p1, err := phase.NewDataPhase([]phase.DataTurn{*turn1})
-	if err != nil {
-		return nil, err
-	}
 	libraryPhase := make(phase.LibraryPhase, 1)
-	libraryPhase[namePhase1] = *p1
+	libraryPhase[namePhase1] = p1
 	return &libraryPhase, nil
 }

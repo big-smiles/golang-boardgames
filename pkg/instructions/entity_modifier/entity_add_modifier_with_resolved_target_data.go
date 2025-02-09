@@ -21,10 +21,9 @@ func (d DataInstructionAddEntityModifierWithResolvedTarget) NewFromThisData() (i
 func NewDataInstructionAddEntityModifierWithResolvedTarget(
 	d IValueResolver[[]entity.Id],
 	dataEntityModifier entity.DataModifier,
-) (*DataInstructionAddEntityModifierWithResolvedTarget, error) {
-
+) *DataInstructionAddEntityModifierWithResolvedTarget {
 	return &DataInstructionAddEntityModifierWithResolvedTarget{
 		target:             d,
 		dataEntityModifier: dataEntityModifier,
-	}, nil
+	}
 }

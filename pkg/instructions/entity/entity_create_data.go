@@ -1,7 +1,7 @@
 package instruction_entity
 
 import (
-	entity "github.com/big-smiles/golang-boardgames/pkg/entity"
+	"github.com/big-smiles/golang-boardgames/pkg/entity"
 	"github.com/big-smiles/golang-boardgames/pkg/instruction"
 )
 
@@ -17,9 +17,9 @@ func (d DataInstructionCreateEntity) NewFromThisData() (instruction.Instruction,
 	return i, nil
 }
 
-func NewDataInstructionCreateEntity(d entity.NameDataEntity) (*DataInstructionCreateEntity, error) {
+func NewDataInstructionCreateEntity(d entity.NameDataEntity) *DataInstructionCreateEntity {
 
 	return &DataInstructionCreateEntity{
 		dataEntity: d,
-	}, nil
+	}
 }

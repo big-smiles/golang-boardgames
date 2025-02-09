@@ -21,10 +21,10 @@ func (d DataInstructionCreateEntityIntoVariable) NewFromThisData() (instruction.
 func NewDataInstructionCreateEntityIntoVariable(
 	d entity.NameDataEntity,
 	variablePropertyName entity.NamePropertyId[entity.Id],
-) (*DataInstructionCreateEntityIntoVariable, error) {
+) *DataInstructionCreateEntityIntoVariable {
 
 	return &DataInstructionCreateEntityIntoVariable{
 		dataEntity:           d,
 		variablePropertyName: variablePropertyName,
-	}, nil
+	}
 }

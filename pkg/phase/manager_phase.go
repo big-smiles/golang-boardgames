@@ -5,9 +5,11 @@ import (
 	"github.com/big-smiles/golang-boardgames/pkg/entity"
 	"github.com/big-smiles/golang-boardgames/pkg/instruction"
 	"github.com/big-smiles/golang-boardgames/pkg/interaction"
+	"github.com/big-smiles/golang-boardgames/pkg/player"
 )
 
 type NamePhase string
+type NameTurn string
 type LibraryPhase map[NamePhase]DataPhase
 type ManagerPhase struct {
 	phases             LibraryPhase
@@ -84,7 +86,7 @@ func (m *ManagerPhase) nextPhase() error {
 }
 func (m *ManagerPhase) nextTurn() (nextPhase bool, err error) {
 	m.indexCurrentTurn++
-	if m.indexCurrentTurn >= len(m.phases[m.currentPhase].turns) {
+	if m.indexCurrentTurn >= len(m.phases[m.currentPhase].Turns) {
 		return true, nil
 	}
 	m.indexCurrentStage = 0
@@ -95,7 +97,7 @@ func (m *ManagerPhase) nextTurn() (nextPhase bool, err error) {
 	return false, nil
 }
 func (m *ManagerPhase) nextStage() (nextTurn bool, err error) {
-	if m.indexCurrentStage >= len(m.phases[m.currentPhase].turns[m.indexCurrentTurn].stages) {
+	if m.indexCurrentStage >= len(m.phases[m.currentPhase].Turns[m.indexCurrentTurn].Stages) {
 		return true, nil
 	}
 	err = m.runCurrentStageInstruction()
@@ -109,21 +111,21 @@ func (m *ManagerPhase) runCurrentStageInstruction() error {
 	if _, ok := m.phases[m.currentPhase]; !ok {
 		return fmt.Errorf("current phase not on the phases library phaseName=%s", m.currentPhase)
 	}
-	if m.indexCurrentTurn >= len(m.phases[m.currentPhase].turns) {
+	if m.indexCurrentTurn >= len(m.phases[m.currentPhase].Turns) {
 		return fmt.Errorf(
 			"invalid turn index= %d for phase with turn length of=%d",
 			m.indexCurrentTurn,
-			len(m.phases[m.currentPhase].turns),
+			len(m.phases[m.currentPhase].Turns),
 		)
 	}
-	if m.indexCurrentStage >= len(m.phases[m.currentPhase].turns[m.indexCurrentTurn].stages) {
+	if m.indexCurrentStage >= len(m.phases[m.currentPhase].Turns[m.indexCurrentTurn].Stages) {
 		return fmt.Errorf(
 			"invalid stage index= %d for turn with stage length of=%d",
 			m.indexCurrentStage,
-			len(m.phases[m.currentPhase].turns[m.indexCurrentTurn].stages),
+			len(m.phases[m.currentPhase].Turns[m.indexCurrentTurn].Stages),
 		)
 	}
-	i, err := m.phases[m.currentPhase].turns[m.indexCurrentTurn].stages[m.indexCurrentStage].instructions.NewFromThisData()
+	i, err := m.phases[m.currentPhase].Turns[m.indexCurrentTurn].Stages[m.indexCurrentStage].Instructions.NewFromThisData()
 	if err != nil {
 		return err
 	}
@@ -133,12 +135,19 @@ func (m *ManagerPhase) runCurrentStageInstruction() error {
 	}
 	return nil
 }
+
 func (m *ManagerPhase) SetNextPhase(namePhase NamePhase) error {
 	m.nextPhaseSet = true
 	_, ok := m.phases[namePhase]
 	if !ok {
-		return fmt.Errorf("invalid phase name: %s", namePhase)
+		return fmt.Errorf("invalid phase Name: %s", namePhase)
 	}
 	m.nextNamePhase = namePhase
 	return nil
+}
+
+func (m *ManagerPhase) GetActivePlayers() ([]player.Id, error) {
+	phaseData := m.phases[m.currentPhase]
+	turnData := phaseData.Turns[m.indexCurrentTurn]
+	return turnData.ActivePlayers, nil
 }

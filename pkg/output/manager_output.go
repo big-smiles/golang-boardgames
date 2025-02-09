@@ -8,9 +8,10 @@ import (
 type Callback func(output *Game)
 
 type ManagerOutput struct {
-	managerEntity     *entity.ManagerEntity
-	managerPropertyId *entity.ManagerPropertyId
-	callback          func(output *Game)
+	managerEntity        *entity.ManagerEntity
+	managerPropertyId    *entity.ManagerPropertyId
+	activePlayerProvider ActivePlayerProvider
+	callback             func(output *Game)
 }
 
 func NewManagerOutput(c func(output *Game)) (*ManagerOutput, error) {
@@ -24,6 +25,7 @@ func (m *ManagerOutput) Initialize(ctx InitializationContext) (err error) {
 	if m.managerEntity == nil {
 		return errors.New("managerEntity is nil")
 	}
+	m.activePlayerProvider = ctx.GetActivePlayerProvider()
 	return nil
 }
 
@@ -39,7 +41,11 @@ func (m *ManagerOutput) SendOutput() error {
 	if err != nil {
 		return err
 	}
-	eo, err := NewGameOutput(entities, propertyIds)
+	activePlayers, err := m.activePlayerProvider.GetActivePlayers()
+	if err != nil {
+		return err
+	}
+	eo, err := NewGameOutput(entities, propertyIds, activePlayers)
 	if err != nil {
 		return err
 	}

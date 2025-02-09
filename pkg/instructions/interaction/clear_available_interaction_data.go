@@ -9,6 +9,6 @@ func (d DataClearAvailableInteraction) NewFromThisData() (instruction.Instructio
 	return NewClearAvailableInteraction()
 }
 
-func NewDataClearAvailableInteraction() (*DataClearAvailableInteraction, error) {
-	return &DataClearAvailableInteraction{}, nil
+func NewDataClearAvailableInteraction() *DataClearAvailableInteraction {
+	return &DataClearAvailableInteraction{}
 }

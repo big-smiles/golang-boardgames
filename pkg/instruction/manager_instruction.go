@@ -77,16 +77,13 @@ func (m *ManagerInstruction) buildExecutionContext(selectedEntities []entity.Id)
 		return nil, err
 	}
 	ctx, err := newExecutionContext(m.performer, *executionVariable)
-	resolveSelectedEntities, err := resolveValueConstant.NewResolveConstant[[]entity.Id](selectedEntities)
-	if err != nil {
-		return nil, err
-	}
+	resolveSelectedEntities := resolveValueConstant.NewResolveConstant[[]entity.Id](selectedEntities)
 	dataModifierSetValue, err := ValueModifierCommon.NewDataModifierSetValue[[]entity.Id](resolveSelectedEntities)
 	if err != nil {
 		return nil, err
 	}
 	mapDataModifierProperties := make(entity.MapDataModifierProperties[[]entity.Id], 1)
-	mapDataModifierProperties[SELECTED_ENTITIES] = dataModifierSetValue
+	mapDataModifierProperties[SelectedEntities] = dataModifierSetValue
 	dataPropertiesModifier, err := entity.NewDataPropertiesModifier(
 		nil,
 		nil,

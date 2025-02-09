@@ -8,7 +8,7 @@ type ManagerTypedPropertyId[T PropertyTypes] struct {
 func NewManagerTypedPropertyId[T PropertyTypes]() *ManagerTypedPropertyId[T] {
 	return &ManagerTypedPropertyId[T]{
 		counter:  0,
-		idByName: make(mapIdProperty[T], 0),
+		idByName: make(mapIdProperty[T]),
 	}
 }
 func (m *ManagerTypedPropertyId[T]) Initialize(_ IInitializationContext) error {

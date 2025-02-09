@@ -18,10 +18,12 @@ func (d DataInstructionAddEntityModifier) NewFromThisData() (instruction.Instruc
 	return i, nil
 }
 
-func NewDataInstructionAddEntityModifier(d entity.DataId, dataEntityModifier entity.DataModifier) (*DataInstructionAddEntityModifier, error) {
-
+func NewDataInstructionAddEntityModifier(
+	d entity.DataId,
+	dataEntityModifier entity.DataModifier,
+) *DataInstructionAddEntityModifier {
 	return &DataInstructionAddEntityModifier{
 		target:             d,
 		dataEntityModifier: dataEntityModifier,
-	}, nil
+	}
 }

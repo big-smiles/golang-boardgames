@@ -37,10 +37,7 @@ func (p *Entity) FilterEntitiesIntoVariable(
 	if err != nil {
 		return err
 	}
-	valueResolver, err := resolveValueConstant.NewResolveConstant[[]entity.Id](filteredIds)
-	if err != nil {
-		return err
-	}
+	valueResolver := resolveValueConstant.NewResolveConstant[[]entity.Id](filteredIds)
 	propertyDataModifier, err :=
 		ValueModifierCommon.NewDataModifierSetValue[[]entity.Id](valueResolver)
 	if err != nil {
