@@ -9,6 +9,6 @@ func (d DataWaitForInteractionData) NewFromThisData() (instruction.Instruction, 
 	return NewWaitForInteraction()
 }
 
-func NewDataWaitForInteractionData() (*DataWaitForInteractionData, error) {
-	return &DataWaitForInteractionData{}, nil
+func NewDataWaitForInteractionData() *DataWaitForInteractionData {
+	return &DataWaitForInteractionData{}
 }

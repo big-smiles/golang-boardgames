@@ -4,8 +4,8 @@ import "github.com/big-smiles/golang-boardgames/pkg/instruction"
 
 type DataInstructionSendOutput struct{}
 
-func NewDataInstructionSendOutput() (*DataInstructionSendOutput, error) {
-	return &DataInstructionSendOutput{}, nil
+func NewDataInstructionSendOutput() *DataInstructionSendOutput {
+	return &DataInstructionSendOutput{}
 }
 func (d DataInstructionSendOutput) NewFromThisData() (instruction.Instruction, error) {
 	i, er := newInstructionSendOutput(d)

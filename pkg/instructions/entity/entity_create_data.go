@@ -17,9 +17,9 @@ func (d DataInstructionCreateEntity) NewFromThisData() (instruction.Instruction,
 	return i, nil
 }
 
-func NewDataInstructionCreateEntity(d entity.NameDataEntity) (*DataInstructionCreateEntity, error) {
+func NewDataInstructionCreateEntity(d entity.NameDataEntity) *DataInstructionCreateEntity {
 
 	return &DataInstructionCreateEntity{
 		dataEntity: d,
-	}, nil
+	}
 }

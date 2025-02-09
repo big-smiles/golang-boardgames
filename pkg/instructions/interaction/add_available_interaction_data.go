@@ -11,11 +11,11 @@ type DataAddAvailableInteractionData struct {
 }
 
 func NewDataAvailableInteractionData(availableInteraction interaction.DataAvailableInteraction,
-	dataInstruction instruction.DataInstruction) (*DataAddAvailableInteractionData, error) {
+	dataInstruction instruction.DataInstruction) *DataAddAvailableInteractionData {
 	return &DataAddAvailableInteractionData{
 		availableInteraction: availableInteraction,
 		dataInstruction:      dataInstruction,
-	}, nil
+	}
 }
 func (d DataAddAvailableInteractionData) NewFromThisData() (instruction.Instruction, error) {
 	return NewAddAvailableInteraction(d.availableInteraction, d.dataInstruction)
