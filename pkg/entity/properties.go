@@ -17,23 +17,23 @@ type properties struct {
 }
 
 func newProperties(m *ManagerPropertyId, d DataProperties) (*properties, error) {
-	intProperties, err := newPropertiesTyped[int](m, d.intProperties)
+	intProperties, err := newPropertiesTyped[int](m, d.IntProperties)
 	if err != nil {
 		return nil, err
 	}
-	stringProperties, err := newPropertiesTyped[string](m, d.stringProperties)
+	stringProperties, err := newPropertiesTyped[string](m, d.StringProperties)
 	if err != nil {
 		return nil, err
 	}
-	boolProperties, err := newPropertiesTyped[bool](m, d.boolProperties)
+	boolProperties, err := newPropertiesTyped[bool](m, d.BoolProperties)
 	if err != nil {
 		return nil, err
 	}
-	entityIdProperties, err := newPropertiesTyped[Id](m, d.entityIdProperties)
+	entityIdProperties, err := newPropertiesTyped[Id](m, d.EntityIdProperties)
 	if err != nil {
 		return nil, err
 	}
-	arrayEntityIdProperties, err := newPropertiesTyped[[]Id](m, d.arrayEntityIdProperties)
+	arrayEntityIdProperties, err := newPropertiesTyped[[]Id](m, d.ArrayEntityIdProperties)
 	if err != nil {
 		return nil, err
 	}

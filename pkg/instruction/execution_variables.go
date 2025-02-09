@@ -11,18 +11,11 @@ func getExecutionVariablesData() (*entity.DataEntity, error) {
 	if err != nil {
 		return nil, err
 	}
-	dataProperties, err := entity.NewDataProperties(
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-	)
-	if err != nil {
-		return nil, err
-	}
+
+	dataProperties := entity.DataProperties{}
+
 	return entity.NewDataEntity(
 		*dataId,
-		*dataProperties,
+		dataProperties,
 	)
 }

@@ -61,25 +61,12 @@ func TestAddEntityModifier(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	namesBoolProperties := make([]entity.NamePropertyId[bool], 1)
-	namesStringProperties := make([]entity.NamePropertyId[string], 0)
-	namesIntProperties := make([]entity.NamePropertyId[int], 0)
-	namesEntityIdProperties := make([]entity.NamePropertyId[entity.Id], 0)
-	namesArrayEntityIdProperties := make([]entity.NamePropertyId[[]entity.Id], 0)
-
-	namesBoolProperties[0] = nameProperty
-
-	dataProperties, err := entity.NewDataProperties(
-		namesBoolProperties,
-		namesStringProperties,
-		namesEntityIdProperties,
-		namesIntProperties,
-		namesArrayEntityIdProperties,
-	)
-	if err != nil {
-		t.Fatal(err)
+	dataProperties := entity.DataProperties{
+		BoolProperties: []entity.NamePropertyId[bool]{
+			nameProperty,
+		},
 	}
-	entityData, err := entity.NewDataEntity(*id, *dataProperties)
+	entityData, err := entity.NewDataEntity(*id, dataProperties)
 	if err != nil {
 		t.Fatal(err)
 	}
