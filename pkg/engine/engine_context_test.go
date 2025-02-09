@@ -32,7 +32,7 @@ func TestCreateEntity(t *testing.T) {
 			t.Fatal("ManagerGame is nil")
 		}
 		if len(output.Entities) != 1 {
-			t.Fatal("expected 1 entitys")
+			t.Fatal("expected 1 entities")
 		}
 		if output.Entities[0].Id != 2 {
 			t.Fatal("expected entity to have Id 1")

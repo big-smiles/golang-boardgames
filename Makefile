@@ -8,4 +8,5 @@ vet: fmt
 	go vet ./...
 build: vet
 	 go build -o bin/${BINARY_NAME} cmd/main.go
-clean: rm -f bin/myapp
+clean:
+	rm -f bin/myapp
