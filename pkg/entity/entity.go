@@ -84,6 +84,8 @@ func (e Entity) AddModifier(m Modifier) error {
 	return nil
 }
 
+// GetValueFromEntity
+// Errors: ErrorPropertyNotFound, GenericError when the typedProperty is not set
 func GetValueFromEntity[T PropertyTypes](
 	e Entity,
 	id PropertyId[T],
@@ -99,6 +101,7 @@ func GetValueFromEntity[T PropertyTypes](
 	if err != nil {
 		return zero, err
 	}
+
 	val := p.Get()
 
 	return val, nil
