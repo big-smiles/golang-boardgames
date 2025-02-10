@@ -32,18 +32,11 @@ func (i instructionCreateEntityIntoVariable) Execute(ctx instruction.ExecutionCo
 	entityIdMapDataModifierProperties := make(entity.MapDataModifierProperties[entity.Id], 1)
 	entityIdMapDataModifierProperties[i.variablePropertyName] = setValueModifier
 
-	dataPropertiesModifier, err := entity.NewDataPropertiesModifier(
-		nil,
-		nil,
-		nil,
-		&entityIdMapDataModifierProperties,
-		nil,
-	)
-	if err != nil {
-		return err
+	dataPropertiesModifier := entity.DataPropertiesModifier{
+		EntityIdModifiers: entityIdMapDataModifierProperties,
 	}
 
-	dataModifier, err := entity.NewDataEntityModifier(*dataPropertiesModifier)
+	dataModifier, err := entity.NewDataEntityModifier(dataPropertiesModifier)
 	if err != nil {
 		return err
 	}

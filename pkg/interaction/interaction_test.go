@@ -188,18 +188,12 @@ func createPhaseLibrary(
 	valueResolver := resolveValueConstant.NewResolveConstant[bool](true)
 	bolModifier, err := ValueModifierCommon.NewDataModifierSetValue(valueResolver)
 	boolModifiers[nameProperty] = bolModifier
-	dataPropertiesModifier, err := entity.NewDataPropertiesModifier(
-		nil,
-		nil,
-		&boolModifiers,
-		nil,
-		nil,
-	)
-	if err != nil {
-		return nil, err
+
+	dataPropertiesModifier := entity.DataPropertiesModifier{
+		BoolModifiers: boolModifiers,
 	}
 
-	dataEntityModifier, err := entity.NewDataEntityModifier(*dataPropertiesModifier)
+	dataEntityModifier, err := entity.NewDataEntityModifier(dataPropertiesModifier)
 	if err != nil {
 		return nil, err
 	}
@@ -232,6 +226,7 @@ func createPhaseLibrary(
 							instructionEntity.NewDataInstructionFilterEntities(
 								func(
 									executionVariable entity.Entity,
+									managerPropertyId *entity.ManagerPropertyId,
 									e entity.Entity,
 								) (bool, error) {
 									return e.Name == nameEntity || e.Name == nameEntity2, nil

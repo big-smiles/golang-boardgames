@@ -84,17 +84,12 @@ func (m *ManagerInstruction) buildExecutionContext(selectedEntities []entity.Id)
 	}
 	mapDataModifierProperties := make(entity.MapDataModifierProperties[[]entity.Id], 1)
 	mapDataModifierProperties[SelectedEntities] = dataModifierSetValue
-	dataPropertiesModifier, err := entity.NewDataPropertiesModifier(
-		nil,
-		nil,
-		nil,
-		nil,
-		&mapDataModifierProperties,
-	)
-	if err != nil {
-		return nil, err
+
+	dataPropertiesModifier := entity.DataPropertiesModifier{
+		ArrayEntityIdModifiers: mapDataModifierProperties,
 	}
-	dataEntityModifier, err := entity.NewDataEntityModifier(*dataPropertiesModifier)
+
+	dataEntityModifier, err := entity.NewDataEntityModifier(dataPropertiesModifier)
 	if err != nil {
 		return nil, err
 	}
