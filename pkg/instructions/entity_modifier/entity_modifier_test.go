@@ -77,18 +77,12 @@ func TestAddEntityModifier(t *testing.T) {
 	valueResolver := resolveValueConstant.NewResolveConstant[bool](true)
 
 	boolModifiers[nameProperty], err = ValueModifierCommon.NewDataModifierSetValue(valueResolver)
-	dataPropertiesModifier, err := entity.NewDataPropertiesModifier(
-		nil,
-		nil,
-		&boolModifiers,
-		nil,
-		nil,
-	)
-	if err != nil {
-		t.Fatal(err)
+
+	dataPropertiesModifier := entity.DataPropertiesModifier{
+		BoolModifiers: boolModifiers,
 	}
 
-	dataEntityModifier, err := entity.NewDataEntityModifier(*dataPropertiesModifier)
+	dataEntityModifier, err := entity.NewDataEntityModifier(dataPropertiesModifier)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -89,7 +89,7 @@ func (m *ManagerEntity) GetOutputAmount() int {
 }
 
 func (m *ManagerEntity) GetFiltered(executionVariables Entity, predicate Predicate) ([]Id, error) {
-	entities, err := filterEntities(executionVariables, m.allEntities, predicate)
+	entities, err := filterEntities(executionVariables, m.managerPropertyId, m.allEntities, predicate)
 	if err != nil {
 		return nil, err
 	}

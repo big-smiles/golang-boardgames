@@ -14,6 +14,8 @@ type DataAvailableInteraction struct {
 	maxAmount int
 }
 
+// NewDataAvailableInteraction
+// minAmount is an INCLUSIVE value, maxAmount is an EXCLUSIVE value
 func NewDataAvailableInteraction(
 	playerId player.Id,
 	availableEntities IValueResolver[[]entity.Id],

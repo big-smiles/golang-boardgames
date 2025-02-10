@@ -1,11 +1,11 @@
 package entity
 
-type Predicate func(executionVariables Entity, entity Entity) (bool, error)
+type Predicate func(executionVariables Entity, managerPropertiesId *ManagerPropertyId, entity Entity) (bool, error)
 
-func filterEntities(executionVariables Entity, entities []*Entity, predicate Predicate) (*[]Entity, error) {
+func filterEntities(executionVariables Entity, managerPropertiesId *ManagerPropertyId, entities []*Entity, predicate Predicate) (*[]Entity, error) {
 	count := 0
 	for _, entity := range entities {
-		keep, err := predicate(executionVariables, *entity)
+		keep, err := predicate(executionVariables, managerPropertiesId, *entity)
 		if err != nil {
 			return nil, err
 		}
@@ -16,7 +16,7 @@ func filterEntities(executionVariables Entity, entities []*Entity, predicate Pre
 	result := make([]Entity, count)
 	count = 0
 	for _, entity := range entities {
-		keep, err := predicate(executionVariables, *entity)
+		keep, err := predicate(executionVariables, managerPropertiesId, *entity)
 		if err != nil {
 			return nil, err
 		}

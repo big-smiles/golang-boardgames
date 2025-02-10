@@ -14,26 +14,26 @@ func NewPropertiesModifier(
 	m *ManagerPropertyId,
 	d DataPropertiesModifier,
 ) (*PropertiesModifier, error) {
-	intModifiers, err := _newPropertiesMapData[int](executionVariables, m, d.intModifiers)
+	intModifiers, err := _newPropertiesMapData[int](executionVariables, m, d.IntModifiers)
 	if err != nil {
 		return nil, err
 	}
 
-	stringModifiers, err := _newPropertiesMapData[string](executionVariables, m, d.stringModifiers)
+	stringModifiers, err := _newPropertiesMapData[string](executionVariables, m, d.StringModifiers)
 	if err != nil {
 		return nil, err
 	}
 
-	boolModifiers, err := _newPropertiesMapData[bool](executionVariables, m, d.boolModifiers)
+	boolModifiers, err := _newPropertiesMapData[bool](executionVariables, m, d.BoolModifiers)
 	if err != nil {
 		return nil, err
 	}
 
-	entityIdModifiers, err := _newPropertiesMapData[Id](executionVariables, m, d.entityIdModifiers)
+	entityIdModifiers, err := _newPropertiesMapData[Id](executionVariables, m, d.EntityIdModifiers)
 	if err != nil {
 		return nil, err
 	}
-	arrayEntityIdModifiers, err := _newPropertiesMapData[[]Id](executionVariables, m, d.arrayEntityIdModifiers)
+	arrayEntityIdModifiers, err := _newPropertiesMapData[[]Id](executionVariables, m, d.ArrayEntityIdModifiers)
 	if err != nil {
 		return nil, err
 	}
