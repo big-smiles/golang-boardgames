@@ -65,7 +65,7 @@ func (p *propertiesTyped[T]) getOutput() (*mapOutputProperties[T], error) {
 func (p *propertiesTyped[T]) GetProperty(id PropertyId[T]) (*property[T], error) {
 	prop, ok := p.properties[id]
 	if !ok {
-		return prop, fmt.Errorf("property not found id=%d", id)
+		return prop, NewErrorPropertyNorFound[T](id)
 	}
 	return prop, nil
 }
