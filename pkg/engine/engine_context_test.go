@@ -10,6 +10,7 @@ import (
 	"github.com/big-smiles/golang-boardgames/pkg/interaction"
 	"github.com/big-smiles/golang-boardgames/pkg/output"
 	"github.com/big-smiles/golang-boardgames/pkg/phase"
+	"github.com/big-smiles/golang-boardgames/pkg/phaseData"
 	"github.com/big-smiles/golang-boardgames/pkg/player"
 	"github.com/big-smiles/golang-boardgames/pkg/resolve_value/constant"
 	"testing"
@@ -45,12 +46,12 @@ func TestCreateEntity(t *testing.T) {
 		t.Log("callback interaction called")
 	}
 
-	p := phase.DataPhase{
+	p := []phaseData.DataPhase{{
 		Name: namePhase,
-		Turns: []phase.DataTurn{
+		Turns: []phaseData.DataTurn{
 			{
 				ActivePlayers: []player.Id{playerId},
-				Stages: []phase.DataStage{
+				Stages: []phaseData.DataStage{
 					{
 						Instructions: instructionControl.NewDataInstructionArray(
 							instructionEntity.NewDataInstructionCreateEntity(nameDataEntity1),
@@ -60,14 +61,12 @@ func TestCreateEntity(t *testing.T) {
 				},
 			},
 		},
-	}
+	}}
 
-	phases := make(map[phase.NamePhase]phase.DataPhase, 1)
-	phases[namePhase] = p
 	players := []player.Id{"player1"}
 	dataGame, err := game.NewDataGame(
 		*libraryDataEntity,
-		phases,
+		p,
 		namePhase,
 		players,
 	)
