@@ -2,15 +2,13 @@ package phase
 
 import (
 	"fmt"
-	"github.com/big-smiles/golang-boardgames/pkg/entity"
-	"github.com/big-smiles/golang-boardgames/pkg/instruction"
 	"github.com/big-smiles/golang-boardgames/pkg/interaction"
 	"github.com/big-smiles/golang-boardgames/pkg/player"
 )
 
 type NamePhase string
 type NameTurn string
-type LibraryPhase map[NamePhase]DataPhase
+type LibraryPhase map[NamePhase]Phase
 type ManagerPhase struct {
 	phases             LibraryPhase
 	currentPhase       NamePhase
@@ -18,32 +16,29 @@ type ManagerPhase struct {
 	indexCurrentStage  int
 	nextNamePhase      NamePhase
 	nextPhaseSet       bool
-	managerInstruction *instruction.ManagerInstruction
 	managerInteraction *interaction.ManagerInteraction
 }
 
-func NewManagerPhase(
-	phases map[NamePhase]DataPhase,
-	firstPhase NamePhase,
-) (*ManagerPhase, error) {
+func NewManagerPhase() (*ManagerPhase, error) {
 	return &ManagerPhase{
-		phases:            phases,
-		nextNamePhase:     firstPhase,
-		currentPhase:      firstPhase,
 		indexCurrentTurn:  0,
 		indexCurrentStage: 0,
 		nextPhaseSet:      false,
 	}, nil
 }
 func (m *ManagerPhase) Initialize(ctx IInitializationContext) error {
-	m.managerInstruction = ctx.GetManagerInstruction()
 	m.managerInteraction = ctx.GetManagerInteraction()
-	if m.managerInstruction == nil {
-		return fmt.Errorf("no ManagerInstruction")
-	}
 	if m.managerInteraction == nil {
 		return fmt.Errorf("no managerInteraction")
 	}
+	return nil
+}
+func (m *ManagerPhase) LoadPhases(
+	phases LibraryPhase,
+	firstPhase NamePhase) error {
+	m.phases = phases
+	m.currentPhase = firstPhase
+	m.nextNamePhase = firstPhase
 	return nil
 }
 func (m *ManagerPhase) Next() error {
@@ -125,11 +120,7 @@ func (m *ManagerPhase) runCurrentStageInstruction() error {
 			len(m.phases[m.currentPhase].Turns[m.indexCurrentTurn].Stages),
 		)
 	}
-	i, err := m.phases[m.currentPhase].Turns[m.indexCurrentTurn].Stages[m.indexCurrentStage].Instructions.NewFromThisData()
-	if err != nil {
-		return err
-	}
-	err = m.managerInstruction.AddInstruction(i, []entity.Id{})
+	err := m.phases[m.currentPhase].Turns[m.indexCurrentTurn].Stages[m.indexCurrentStage].callback()
 	if err != nil {
 		return err
 	}

@@ -13,6 +13,7 @@ import (
 	"github.com/big-smiles/golang-boardgames/pkg/interaction"
 	"github.com/big-smiles/golang-boardgames/pkg/output"
 	"github.com/big-smiles/golang-boardgames/pkg/phase"
+	"github.com/big-smiles/golang-boardgames/pkg/phaseData"
 	"github.com/big-smiles/golang-boardgames/pkg/player"
 	resolveValueConstant "github.com/big-smiles/golang-boardgames/pkg/resolve_value/constant"
 	ValueModifierCommon "github.com/big-smiles/golang-boardgames/pkg/value_modifier/common"
@@ -182,7 +183,7 @@ func createPhaseLibrary(
 	variablePropertyName entity.NamePropertyId[[]entity.Id],
 	playerId player.Id,
 
-) (*phase.LibraryPhase, error) {
+) (*[]phaseData.DataPhase, error) {
 
 	boolModifiers := make(entity.MapDataModifierProperties[bool], 1)
 	valueResolver := resolveValueConstant.NewResolveConstant[bool](true)
@@ -212,12 +213,12 @@ func createPhaseLibrary(
 		return nil, err
 	}
 
-	p1 := phase.DataPhase{
+	p1 := []phaseData.DataPhase{{
 		Name: namePhase1,
-		Turns: []phase.DataTurn{
+		Turns: []phaseData.DataTurn{
 			{
 				ActivePlayers: []player.Id{playerId},
-				Stages: []phase.DataStage{
+				Stages: []phaseData.DataStage{
 					{
 						Instructions: instructionControl.NewDataInstructionArray(
 							instructionEntity.NewDataInstructionCreateEntity(nameDataEntity),
@@ -249,9 +250,7 @@ func createPhaseLibrary(
 				},
 			},
 		},
-	}
+	}}
 
-	libraryPhase := make(phase.LibraryPhase, 1)
-	libraryPhase[namePhase1] = p1
-	return &libraryPhase, nil
+	return &p1, nil
 }

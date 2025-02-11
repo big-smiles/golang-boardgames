@@ -10,6 +10,7 @@ import (
 	"github.com/big-smiles/golang-boardgames/pkg/interaction"
 	"github.com/big-smiles/golang-boardgames/pkg/output"
 	"github.com/big-smiles/golang-boardgames/pkg/phase"
+	"github.com/big-smiles/golang-boardgames/pkg/phaseData"
 	"github.com/big-smiles/golang-boardgames/pkg/player"
 	"github.com/big-smiles/golang-boardgames/pkg/resolve_value/constant"
 	ValueModifierCommon "github.com/big-smiles/golang-boardgames/pkg/value_modifier/common"
@@ -87,11 +88,11 @@ func TestAddEntityModifier(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	p := phase.DataPhase{
+	p := []phaseData.DataPhase{{
 		Name: namePhase,
-		Turns: []phase.DataTurn{
+		Turns: []phaseData.DataTurn{
 			{
-				Stages: []phase.DataStage{
+				Stages: []phaseData.DataStage{
 					{
 						Instructions: instructionControl.NewDataInstructionArray(
 							instructionEntity.NewDataInstructionCreateEntity(nameDataEntity),
@@ -104,14 +105,12 @@ func TestAddEntityModifier(t *testing.T) {
 				ActivePlayers: []player.Id{playerId},
 			},
 		},
-	}
+	}}
 
-	libraryPhase := make(phase.LibraryPhase, 1)
-	libraryPhase[namePhase] = p
 	players := []player.Id{"player1"}
 	gameData, err := game.NewDataGame(
 		libraryDataEntities,
-		libraryPhase,
+		p,
 		namePhase,
 		players,
 	)

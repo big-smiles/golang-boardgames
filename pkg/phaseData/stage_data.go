@@ -1,4 +1,4 @@
-package phase
+package phaseData
 
 import (
 	"github.com/big-smiles/golang-boardgames/pkg/instruction"

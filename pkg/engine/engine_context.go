@@ -6,6 +6,7 @@ import (
 	"github.com/big-smiles/golang-boardgames/pkg/interaction"
 	"github.com/big-smiles/golang-boardgames/pkg/output"
 	"github.com/big-smiles/golang-boardgames/pkg/phase"
+	"github.com/big-smiles/golang-boardgames/pkg/phaseData"
 	"github.com/big-smiles/golang-boardgames/pkg/player"
 )
 
@@ -37,7 +38,7 @@ type Context struct {
 func NewContext(
 	entityData entity.LibraryDataEntity,
 	callbackOutput output.Callback,
-	phases phase.LibraryPhase,
+	phases []phaseData.DataPhase,
 	firstPhase phase.NamePhase,
 	callbackInteraction interaction.Callback,
 	players []player.Id,
@@ -81,7 +82,7 @@ func NewContext(
 		return nil, err
 	}
 
-	managerPhase, err := phase.NewManagerPhase(phases, firstPhase)
+	managerPhase, err := phase.NewManagerPhase()
 	if err != nil {
 		return nil, err
 	}
@@ -109,6 +110,10 @@ func NewContext(
 		managerPlayer:             managerPlayer,
 	}
 	err = engineContext.initialize()
+	if err != nil {
+		return nil, err
+	}
+	err = engineContext.loadPhase(phases, firstPhase)
 	if err != nil {
 		return nil, err
 	}
@@ -172,6 +177,45 @@ func (e *Context) initialize() error {
 	}
 
 	return nil
+}
+func (e *Context) loadPhase(
+	phases []phaseData.DataPhase,
+	firstPhase phase.NamePhase,
+) error {
+	libraryPhase := make(phase.LibraryPhase)
+	for _, pd := range phases {
+		turns := make([]phase.Turn, len(pd.Turns))
+		for i, turn := range pd.Turns {
+			stages := make([]phase.Stage, len(turn.Stages))
+			for j, stage := range turn.Stages {
+				callback := e.getStageCallback(stage.Instructions)
+				stages[j] = *phase.NewStage(callback)
+			}
+			turns[i] = *phase.NewTurn(turn.Name, turn.ActivePlayers, stages)
+		}
+		p := phase.NewPhase(pd.Name, turns)
+		libraryPhase[pd.Name] = *p
+	}
+	err := e.managerPhase.LoadPhases(libraryPhase, firstPhase)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func (e *Context) getStageCallback(
+	dataInstruction instruction.DataInstruction,
+) phase.CallbackInstructionExecute {
+	return func() error {
+		i, err := dataInstruction.NewFromThisData()
+		if err != nil {
+			return err
+		}
+		err = e.managerInstruction.AddInstruction(i, nil)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
 }
 func (e *Context) Next() error {
 	return e.managerPhase.Next()
@@ -241,6 +285,12 @@ func (e *Context) GetManagerInteraction() *interaction.ManagerInteraction {
 // an interface declared on the manager packages
 func (e *Context) GetManagerTriggerInstruction() *instruction.ManagerTriggerInstruction {
 	return e.managerTriggerInstruction
+}
+
+// GetManagerPhase we declare getters to fix cyclic dependencies by passing the ctx as
+// an interface declared on the manager packages
+func (e *Context) GetManagerPhase() *phase.ManagerPhase {
+	return e.managerPhase
 }
 
 // GetManagerPlayer we declare getters to fix cyclic dependencies by passing the ctx as
