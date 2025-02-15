@@ -28,6 +28,7 @@ func (p *Entity) GetId(executionVariables entity.Entity, d entity.DataId) (entit
 	}
 	return id, nil
 }
+
 func (p *Entity) FilterEntitiesIntoVariable(
 	executionVariables entity.Entity,
 	predicate entity.Predicate,
@@ -62,6 +63,7 @@ func (p *Entity) FilterEntitiesIntoVariable(
 
 	return nil
 }
+
 func (p *Entity) GetData(name entity.NameDataEntity) (entity.DataEntity, error) {
 	if p.managerEntityData == nil {
 		return entity.DataEntity{}, errors.New("in Entity managerEntityData is nil")
@@ -73,6 +75,7 @@ func (p *Entity) GetData(name entity.NameDataEntity) (entity.DataEntity, error) 
 
 	return data, nil
 }
+
 func (p *Entity) Create(executionVariables entity.Entity, d entity.DataEntity) (entity.Id, error) {
 	if p.managerEntity == nil {
 		return 0, errors.New("manager entity is nil")
@@ -83,6 +86,7 @@ func (p *Entity) Create(executionVariables entity.Entity, d entity.DataEntity) (
 	}
 	return ent.Id, nil
 }
+
 func (p *Entity) Get(executionVariables entity.Entity, d entity.DataId) (*entity.Entity, error) {
 	if p.managerEntityId == nil {
 		return nil, errors.New("in Entity managerEntityId is nil")
@@ -97,6 +101,15 @@ func (p *Entity) Get(executionVariables entity.Entity, d entity.DataId) (*entity
 	}
 	return ent, nil
 }
+
+func (p *Entity) GetById(id entity.Id) (*entity.Entity, error) {
+	ent, err := p.managerEntity.FindById(id)
+	if err != nil {
+		return nil, err
+	}
+	return ent, nil
+}
+
 func (p *Entity) AddModifier(executionVariables entity.Entity, target []entity.Id, d entity.DataModifier) error {
 	if p.managerEntity == nil {
 		return errors.New("manager entity is nil")
@@ -114,11 +127,10 @@ func (p *Entity) AddModifier(executionVariables entity.Entity, target []entity.I
 		if err != nil {
 			return err
 		}
-
 	}
-
 	return nil
 }
+
 func (p *Entity) Initialize(ctx InitializationContext) error {
 	p.managerEntity = ctx.GetManagerEntity()
 	p.managerEntityId = ctx.GetManagerEntityId()

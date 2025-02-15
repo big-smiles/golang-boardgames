@@ -1,6 +1,9 @@
 package phase
 
-import "testing"
+import (
+	"github.com/big-smiles/golang-boardgames/pkg/player"
+	"testing"
+)
 
 type MockInitializationContext struct {
 }
@@ -8,6 +11,8 @@ type MockInitializationContext struct {
 const (
 	firstPhase  NamePhase = "first_phase"
 	secondPhase NamePhase = "second_phase"
+	player1     player.Id = "player1"
+	player2     player.Id = "player2"
 )
 
 func TestManagerPhase(t *testing.T) {
@@ -60,6 +65,13 @@ func TestManagerPhase(t *testing.T) {
 	if callbackStage1Called != 1 || callbackStage2Called != 1 || callbackStage3Called != 0 {
 		t.Error("failed after second Next", callbackStage1Called, callbackStage2Called)
 	}
+	activePlayers, err := managerPhase.GetActivePlayers()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(activePlayers) != 1 || activePlayers[0] != player1 {
+		t.Error("failed after GetActivePlayers", activePlayers)
+	}
 
 	err = managerPhase.Next()
 	if err != nil {
@@ -67,6 +79,13 @@ func TestManagerPhase(t *testing.T) {
 	}
 	if callbackStage1Called != 1 || callbackStage2Called != 1 || callbackStage3Called != 1 {
 		t.Error("failed after second Next", callbackStage1Called, callbackStage2Called)
+	}
+	activePlayers, err = managerPhase.GetActivePlayers()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(activePlayers) != 1 || activePlayers[0] != player2 {
+		t.Error("failed after GetActivePlayers", activePlayers)
 	}
 }
 
@@ -93,10 +112,16 @@ func getPhaseData(
 			Name: secondPhase,
 			Turns: []Turn{
 				{
+					ActivePlayers: []player.Id{player1},
 					Stages: []Stage{
 						{
 							callback: callbackStage2,
 						},
+					},
+				},
+				{
+					ActivePlayers: []player.Id{player2},
+					Stages: []Stage{
 						{
 							callback: callbackStage3,
 						},
