@@ -131,6 +131,31 @@ func (p *Entity) AddModifier(executionVariables entity.Entity, target []entity.I
 	return nil
 }
 
+func GetValueFromEntity[T entity.PropertyTypes](
+	performerEntity Entity,
+	e entity.Entity,
+	name entity.NamePropertyId[T],
+) (T, error) {
+	var zero T
+
+	typedManager, err := entity.GetManagerTypedPropertyId[T](performerEntity.managerPropertyId)
+	if err != nil {
+		return zero, err
+	}
+
+	id, err := typedManager.GetId(name)
+	if err != nil {
+		return zero, err
+	}
+
+	value, err := entity.GetValueFromEntity(e, id)
+	if err != nil {
+		return zero, err
+	}
+
+	return value, nil
+}
+
 func (p *Entity) Initialize(ctx InitializationContext) error {
 	p.managerEntity = ctx.GetManagerEntity()
 	p.managerEntityId = ctx.GetManagerEntityId()
