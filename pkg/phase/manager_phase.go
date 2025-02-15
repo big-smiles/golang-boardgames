@@ -2,7 +2,6 @@ package phase
 
 import (
 	"fmt"
-	"github.com/big-smiles/golang-boardgames/pkg/interaction"
 	"github.com/big-smiles/golang-boardgames/pkg/player"
 )
 
@@ -10,13 +9,12 @@ type NamePhase string
 type NameTurn string
 type LibraryPhase map[NamePhase]Phase
 type ManagerPhase struct {
-	phases             LibraryPhase
-	currentPhase       NamePhase
-	indexCurrentTurn   int
-	indexCurrentStage  int
-	nextNamePhase      NamePhase
-	nextPhaseSet       bool
-	managerInteraction *interaction.ManagerInteraction
+	phases            LibraryPhase
+	currentPhase      NamePhase
+	indexCurrentTurn  int
+	indexCurrentStage int
+	nextNamePhase     NamePhase
+	nextPhaseSet      bool
 }
 
 func NewManagerPhase() (*ManagerPhase, error) {
@@ -26,11 +24,7 @@ func NewManagerPhase() (*ManagerPhase, error) {
 		nextPhaseSet:      false,
 	}, nil
 }
-func (m *ManagerPhase) Initialize(ctx IInitializationContext) error {
-	m.managerInteraction = ctx.GetManagerInteraction()
-	if m.managerInteraction == nil {
-		return fmt.Errorf("no managerInteraction")
-	}
+func (m *ManagerPhase) Initialize(_ IInitializationContext) error {
 	return nil
 }
 func (m *ManagerPhase) LoadPhases(
@@ -74,6 +68,7 @@ func (m *ManagerPhase) nextPhase() error {
 	m.indexCurrentTurn = 0
 	m.indexCurrentStage = 0
 	err := m.runCurrentStageInstruction()
+	m.indexCurrentStage++
 	if err != nil {
 		return err
 	}
@@ -86,6 +81,7 @@ func (m *ManagerPhase) nextTurn() (nextPhase bool, err error) {
 	}
 	m.indexCurrentStage = 0
 	err = m.runCurrentStageInstruction()
+	m.indexCurrentStage++
 	if err != nil {
 		return false, err
 	}
